@@ -27,13 +27,13 @@ async function addTodoToFirestore() {
             todo: todoInput.value
         }
 
-        let data = await addDoc(collectionRef, userTodo)
-        
-        todoInput.value = ''; 
+        await addDoc(collectionRef, userTodo)
+
+        todoInput.value = '';
+
         getDocsFunc()
+
         makeTodoList();
-
-
     } else {
         alert('Please enter some thing in input box')
     }
@@ -72,10 +72,9 @@ function makeTodoList(value) {
     delBtn.addEventListener("click", async function () {
         console.log(this.id)
         let docRef = doc(db, 'todo', this.id);
-            await deleteDoc(docRef);
+        await deleteDoc(docRef);
         getDocsFunc()
     })
 
     listDiv.appendChild(div);
-
 }
