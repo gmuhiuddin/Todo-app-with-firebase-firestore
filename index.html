@@ -10,6 +10,58 @@
 
 <body>
     <div class="container">
+        <div id="sign-up">
+            <br />
+            <h1 class="Sign-up-heading">Sign Up</h1>
+            <form id="sign-up-form">
+                <label for="username">Name</label>
+                <br>
+                <br>
+                <input class="input" type="text" required id="sign-up-user-name" />
+                <br>
+                <br>
+                <label for="user-email">Email</label>
+                <br>
+                <br>
+                <input class="input" type="email" required id="sign-up-user-email">
+                <br>
+                <br>
+                <label for="user-password">Password</label>
+                <br>
+                <br>
+                <input class="input" minlength="8" type="password" required id="sign-up-user-password">
+                <br>
+                <br>
+                <br>
+                <button type="submit" id="sign-up-btn">Sign up</button>
+            </form>
+            <br>
+            <p class="txt">You already have an account <a id="sign-in-txt">Sign in</a></p>
+        </div>
+        <div id="sign-in">
+            <br />
+            <h1 class="Sign-in-heading">Sign In</h1>
+            <form id="sign-in-form" >
+                <label for="user-email">Email</label>
+                <br>
+                <br>
+                <input class="input" type="email" required id="user-email">
+                <br>
+                <br>
+                <label for="user-password">Password</label>
+                <br>
+                <br>
+                <input class="input" minlength="8" type="password" required id="user-password">
+                <br>
+                <br>
+                <br>
+                <button type="submit" id="sign-in-btn">Sign In</button>
+            </form>
+            <br>
+            <p class="txt">You don`t have an account <a id="sign-up-txt">Sign up</a></p>
+        </div>
+    </div>
+    <div id="container">
         <div class="todo-div">
             <h2>To-Do List <img class="note-book-img"
                     src="https://cdn.vectorstock.com/i/preview-1x/87/76/icon-of-exercise-book-vector-42768776.jpg"
