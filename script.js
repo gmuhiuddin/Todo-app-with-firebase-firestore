@@ -34,6 +34,8 @@ let signUpTxt = document.getElementById('sign-up-txt');
 let container = document.getElementsByClassName('container');
 let logoutBtn = document.getElementById('logoutBtn');
 let BlogAppContainer = document.getElementById('container');
+let userNametodolist = document.getElementById('userNametodolist');
+let userId = '';
 
 addBtn.addEventListener('click', addTodoToFirestore)
 
@@ -104,6 +106,8 @@ onAuthStateChanged(auth, (user) => {
     container[0].style.display = 'none'
 
     const uid = user.uid;
+    userId = uid
+
     // ...
   } else {
     // User is signed out
@@ -122,6 +126,7 @@ signUpForm.addEventListener('submit', a => {
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
+     userId = user.uid
       BlogAppContainer.style.display = 'flex'
       container[0].style.display = 'none'
 
@@ -130,7 +135,7 @@ signUpForm.addEventListener('submit', a => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      alert('This email is already signed up')
+      alert(errorMessage)
       signUpPassword.value = '';
       BlogAppContainer.style.display = 'none'
       container[0].style.display = 'flex'
@@ -154,6 +159,7 @@ signInForm.addEventListener('submit', a => {
       container[0].style.display = 'none'
       signUpPassword.value = '';
       signInPassword.value = '';
+      userId = user.uid
 
       // ...
     })
@@ -167,17 +173,17 @@ signInForm.addEventListener('submit', a => {
 }
 )
 
-// logoutBtn.addEventListener('click', function () {
-//   signOut(auth).then(() => {
-//     // Sign-out successful.
+logoutBtn.addEventListener('click', function () {
+  signOut(auth).then(() => {
+    // Sign-out successful.
 
-//     BlogAppContainer.style.display = 'none'
-//     container[0].style.display = 'flex'
-//   }).catch((error) => {
-//     // An error happened.
-//     alert('Some error please try again')
-//   });
-// })
+    BlogAppContainer.style.display = 'none'
+    container[0].style.display = 'flex'
+  }).catch((error) => {
+    // An error happened.
+    alert('Some error please try again')
+  });
+})
 
 signUpTxt.addEventListener('click', () => {
 
