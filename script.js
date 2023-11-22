@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { getAuth, signOut, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -37,12 +37,21 @@ let BlogAppContainer = document.getElementById('container');
 let userNametodolist = document.getElementById('userNametodolist');
 let userId = '';
 
+addName()
+
+async function addName (){
+let name = await getDoc(doc(db, 'users' ,userId))
+let {userName} = name.data()
+userNametodolist.innerText = userName
+}
+
 addBtn.addEventListener('click', addTodoToFirestore)
 
 async function addTodoToFirestore() {
   if (todoInput.value != '') {
     let userTodo = {
-      todo: todoInput.value
+      todo: todoInput.value,
+      userID , userId
     }
 
     await addDoc(collectionRef, userTodo)
@@ -107,7 +116,7 @@ onAuthStateChanged(auth, (user) => {
 
     const uid = user.uid;
     userId = uid
-
+    addName()
     // ...
   } else {
     // User is signed out
@@ -115,6 +124,11 @@ onAuthStateChanged(auth, (user) => {
     BlogAppContainer.style.display = 'none';
     container[0].style.display = 'flex';
 
+    signInEmail.value = '';
+    signUpPassword.value = '';
+    signUpEmail.value = '';
+    signUpUserName.value = '';
+    signInPassword.value = '';
   }
 });
 
@@ -123,13 +137,23 @@ signUpForm.addEventListener('submit', a => {
   a.preventDefault()
 
   createUserWithEmailAndPassword(auth, signUpEmail.value, signUpPassword.value)
-    .then((userCredential) => {
+    .then( async (userCredential) => {
       // Signed up 
+      let docRef = doc(db , "users" , userId)
+      await setDoc(docRef,{
+       userName : signUpUserName.value
+      })
       const user = userCredential.user;
-     userId = user.uid
+      userId = user.uid;
       BlogAppContainer.style.display = 'flex'
       container[0].style.display = 'none'
-
+      
+    signInEmail.value = '';
+    signUpPassword.value = '';
+    signUpEmail.value = '';
+    signUpUserName.value = '';
+    signInPassword.value = '';
+      addName()
       // ...
     })
     .catch((error) => {
@@ -142,6 +166,8 @@ signUpForm.addEventListener('submit', a => {
 
       signInEmail.value = '';
       signUpPassword.value = '';
+      signUpEmail.value = '';
+      signUpUserName.value = '';
       signInPassword.value = '';
       // ..
     });
@@ -157,10 +183,14 @@ signInForm.addEventListener('submit', a => {
       const user = userCredential.user;
       BlogAppContainer.style.display = 'flex'
       container[0].style.display = 'none'
-      signUpPassword.value = '';
-      signInPassword.value = '';
+      
+    signInEmail.value = '';
+    signUpPassword.value = '';
+    signUpEmail.value = '';
+    signUpUserName.value = '';
+    signInPassword.value = '';
       userId = user.uid
-
+      addName()
       // ...
     })
     .catch((error) => {
@@ -178,7 +208,14 @@ logoutBtn.addEventListener('click', function () {
     // Sign-out successful.
 
     BlogAppContainer.style.display = 'none'
-    container[0].style.display = 'flex'
+    container[0].style.display = 'flex';
+    
+    signInEmail.value = '';
+    signUpPassword.value = '';
+    signUpEmail.value = '';
+    signUpUserName.value = '';
+    signInPassword.value = '';
+
   }).catch((error) => {
     // An error happened.
     alert('Some error please try again')
