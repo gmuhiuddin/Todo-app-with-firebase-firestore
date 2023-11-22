@@ -194,13 +194,15 @@ label {
 }
 #logoutBtn{
     height: 33px;
-    width: 69px;
-    margin-left: 9px;
+    width: 79px;
     cursor: pointer;
     border-radius: 12px;
     border: none;
     background-color: red;
     color: white;
+    position: fixed;
+    top: 15px;
+    right: 10px;
 }
 
 #userNametodolist{

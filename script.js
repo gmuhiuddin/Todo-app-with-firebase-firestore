@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { getAuth, signOut, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, getDoc, setDoc, query, where } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDMeG-Yt8eUI3eoSEbLokIk9Fo_fCRTZ3k",
@@ -39,10 +39,10 @@ let userId = '';
 
 addName()
 
-async function addName (){
-let name = await getDoc(doc(db, 'users' ,userId))
-let {userName} = name.data()
-userNametodolist.innerText = userName
+async function addName() {
+  let name = await getDoc(doc(db, 'users', userId))
+  let { userName } = name.data()
+  userNametodolist.innerText = userName
 }
 
 addBtn.addEventListener('click', addTodoToFirestore)
@@ -51,14 +51,15 @@ async function addTodoToFirestore() {
   if (todoInput.value != '') {
     let userTodo = {
       todo: todoInput.value,
-      userID , userId
+      userID: userId
     }
 
     await addDoc(collectionRef, userTodo)
 
     todoInput.value = '';
 
-    getDocsFunc();
+    const q = query(collectionRef, where("userID", "==", userId));
+    getDocsFunc(q);
 
     makeTodoList();
   } else {
@@ -66,9 +67,10 @@ async function addTodoToFirestore() {
   }
 }
 
-async function getDocsFunc() {
+async function getDocsFunc(q = query(collectionRef, where("userID", "==", userId))) {
+
   listDiv.innerHTML = null
-  let todos = await getDocs(collectionRef);
+  let todos = await getDocs(q);
 
   todos.forEach(docs => {
     makeTodoList(docs)
@@ -97,7 +99,6 @@ function makeTodoList(value) {
   div.appendChild(delBtn);
 
   delBtn.addEventListener("click", async function () {
-    console.log(this.id)
     let docRef = doc(db, 'todo', this.id);
     await deleteDoc(docRef);
     getDocsFunc()
@@ -111,12 +112,13 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
 
-    BlogAppContainer.style.display = 'flex'
-    container[0].style.display = 'none'
+    BlogAppContainer.style.display = 'flex';
+    container[0].style.display = 'none';
 
     const uid = user.uid;
     userId = uid
     addName()
+    getDocsFunc()
     // ...
   } else {
     // User is signed out
@@ -137,22 +139,22 @@ signUpForm.addEventListener('submit', a => {
   a.preventDefault()
 
   createUserWithEmailAndPassword(auth, signUpEmail.value, signUpPassword.value)
-    .then( async (userCredential) => {
+    .then(async (userCredential) => {
       // Signed up 
-      let docRef = doc(db , "users" , userId)
-      await setDoc(docRef,{
-       userName : signUpUserName.value
+      let docRef = doc(db, "users", userId)
+      await setDoc(docRef, {
+        userName: signUpUserName.value
       })
       const user = userCredential.user;
       userId = user.uid;
       BlogAppContainer.style.display = 'flex'
       container[0].style.display = 'none'
-      
-    signInEmail.value = '';
-    signUpPassword.value = '';
-    signUpEmail.value = '';
-    signUpUserName.value = '';
-    signInPassword.value = '';
+
+      signInEmail.value = '';
+      signUpPassword.value = '';
+      signUpEmail.value = '';
+      signUpUserName.value = '';
+      signInPassword.value = '';
       addName()
       // ...
     })
@@ -183,14 +185,15 @@ signInForm.addEventListener('submit', a => {
       const user = userCredential.user;
       BlogAppContainer.style.display = 'flex'
       container[0].style.display = 'none'
-      
-    signInEmail.value = '';
-    signUpPassword.value = '';
-    signUpEmail.value = '';
-    signUpUserName.value = '';
-    signInPassword.value = '';
-      userId = user.uid
+
+      signInEmail.value = '';
+      signUpPassword.value = '';
+      signUpEmail.value = '';
+      signUpUserName.value = '';
+      signInPassword.value = '';
+      userId = user.uid;
       addName()
+
       // ...
     })
     .catch((error) => {
@@ -209,7 +212,7 @@ logoutBtn.addEventListener('click', function () {
 
     BlogAppContainer.style.display = 'none'
     container[0].style.display = 'flex';
-    
+
     signInEmail.value = '';
     signUpPassword.value = '';
     signUpEmail.value = '';
