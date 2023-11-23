@@ -192,7 +192,8 @@ label {
 #sign-up-txt:hover {
     color: rgb(106, 101, 249);
 }
-#logoutBtn{
+
+#logoutBtn {
     height: 33px;
     width: 79px;
     cursor: pointer;
@@ -205,6 +206,6 @@ label {
     right: 10px;
 }
 
-#userNametodolist{
+#userNametodolist {
     margin-left: 7px;
 }

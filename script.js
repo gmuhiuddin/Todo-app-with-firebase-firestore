@@ -15,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-let collectionRef = collection(db, "todo")
+let collectionRef = collection(db, "todo");
 
 let todoInput = document.getElementById('todo-input');
 let addBtn = document.getElementById('add-btn');
@@ -37,7 +37,7 @@ let BlogAppContainer = document.getElementById('container');
 let userNametodolist = document.getElementById('userNametodolist');
 let userId = '';
 
-addName()
+addName();
 
 async function addName() {
   let name = await getDoc(doc(db, 'users', userId))
@@ -77,7 +77,7 @@ async function getDocsFunc(q = query(collectionRef, where("userID", "==", userId
   })
 }
 
-getDocsFunc()
+getDocsFunc();
 
 function makeTodoList(value) {
 
