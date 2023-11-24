@@ -4,10 +4,86 @@
 }
 
 * {
+	margin: 0;
+	padding: 0;
     font-family: poppins-medium;
-    margin: 0px;
-    padding: 0px;
 }
+
+:root {
+	--hue: 223;
+	--bg: hsl(var(--hue),90%,95%);
+	--fg: hsl(var(--hue),90%,5%);
+	--trans-dur: 0.3s;
+	 /* font-size: calc(16px + (24 - 16) * (100vw - 320px) / (1280 - 320));  */
+}
+.body {
+    background: linear-gradient(135deg, #153677, #4e085f);
+	color: var(--fg);
+	font: 1em/1.5 sans-serif;
+	height: 100vh;
+	display: flex;
+    justify-content: center;
+	align-items: center;
+	transition: background-color var(--trans-dur);
+}
+main {
+	padding: 1.5em 0;
+}
+.ip {
+	width: 16em;
+	height: 8em;
+}
+.ip__track {
+	stroke: hsl(var(--hue),90%,90%);
+	transition: stroke var(--trans-dur);
+}
+.ip__worm1,
+.ip__worm2 {
+	animation: worm1 2s linear infinite;
+}
+.ip__worm2 {
+	animation-name: worm2;
+} 
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: hsl(var(--hue),90%,5%);
+		--fg: hsl(var(--hue),90%,95%);
+	}
+	.ip__track {
+		stroke: hsl(var(--hue),90%,15%);
+	}
+}
+
+/* Animation */
+@keyframes worm1 {
+	from {
+		stroke-dashoffset: 0;
+	}
+	50% {
+		animation-timing-function: steps(1);
+		stroke-dashoffset: -358;
+	}
+	50.01% {
+		animation-timing-function: linear;
+		stroke-dashoffset: 358;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes worm2 {
+	from {
+		stroke-dashoffset: 358;
+	}
+	50% {
+		stroke-dashoffset: 0;
+	}
+	to {
+		stroke-dashoffset: -358;
+	}
+} 
 
 #container {
     min-height: 100vh;
@@ -26,7 +102,7 @@
     border-radius: 11px;
     margin: 0 auto;
     border: 4px solid black;
-    box-shadow: 3px 3px 1px black;
+    box-shadow: 3px 3px 10px black;
 }
 
 .todo-div h2 {
@@ -100,10 +176,8 @@
     background-color: rgb(208, 206, 206);
 }
 
-
-
 .container {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -113,7 +187,7 @@
 #sign-up {
     background-color: black;
     color: white;
-    height: 499px;
+    height: 529px;
     width: 479px;
     border-radius: 12px;
     display: block;
@@ -122,7 +196,7 @@
 #sign-in {
     background-color: black;
     color: white;
-    height: 439px;
+    height: 459px;
     width: 479px;
     border-radius: 12px;
     display: none;

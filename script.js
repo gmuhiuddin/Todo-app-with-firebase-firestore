@@ -35,6 +35,7 @@ let container = document.getElementsByClassName('container');
 let logoutBtn = document.getElementById('logoutBtn');
 let BlogAppContainer = document.getElementById('container');
 let userNametodolist = document.getElementById('userNametodolist');
+let loader = document.getElementsByClassName('body');
 let userId = '';
 
 addName();
@@ -42,7 +43,7 @@ addName();
 async function addName() {
   let name = await getDoc(doc(db, 'users', userId))
   let { userName } = name.data()
-  userNametodolist.innerText = userName
+  userNametodolist.innerText = userName;
 }
 
 addBtn.addEventListener('click', addTodoToFirestore)
@@ -114,7 +115,7 @@ onAuthStateChanged(auth, (user) => {
 
     BlogAppContainer.style.display = 'flex';
     container[0].style.display = 'none';
-
+    loader[0].style.display = 'none';
     const uid = user.uid;
     userId = uid
     addName()
@@ -125,6 +126,7 @@ onAuthStateChanged(auth, (user) => {
     // ...
     BlogAppContainer.style.display = 'none';
     container[0].style.display = 'flex';
+    loader[0].style.display = 'none';
 
     signInEmail.value = '';
     signUpPassword.value = '';
