@@ -2,15 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebas
 import { getAuth, signOut, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, getDoc, setDoc, query, where } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDMeG-Yt8eUI3eoSEbLokIk9Fo_fCRTZ3k",
-  authDomain: "blog-app-9f834.firebaseapp.com",
-  projectId: "blog-app-9f834",
-  storageBucket: "blog-app-9f834.appspot.com",
-  messagingSenderId: "114009764949",
-  appId: "1:114009764949:web:3c7974840f125054e290dc",
-  measurementId: "G-K5QB7B6K9N"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyBB7DMURlble9VyuMBVW2jucN1LD1oI1mg",
+    authDomain: "todo-app-b6568.firebaseapp.com",
+    projectId: "todo-app-b6568",
+    storageBucket: "todo-app-b6568.appspot.com",
+    messagingSenderId: "787704489717",
+    appId: "1:787704489717:web:2e0175eed7a75151f2c7bc",
+    measurementId: "G-2JWQEGZT2D"
+  };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
